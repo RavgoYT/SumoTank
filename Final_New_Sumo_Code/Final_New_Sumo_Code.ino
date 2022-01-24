@@ -21,28 +21,16 @@ void setup() {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
   pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
   Serial.begin(9600); // // Serial Communication is starting with 9600 of baudrate speed
-  Serial.println("Ultrasonic Sensor HC-SR04 Test"); // print some text in Serial Monitor
-  Serial.println("with Arduino UNO R3");
+  Serial.println("Begin:"); // print some text in Serial Monitor
 }
 void loop() {
+  
+  if ( (counter) != 1 ) {  // if no entity found, keep spinning
 
-  
-  if ( (distance) != (0) && (distance) < 15 ) {  
-  
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
-  servo_pin_10.write( -135 );
-  servo_pin_11.write( -135 );
-  delay(1200);
-  
-  
-  } else { // if no entity found, keep spinning
-  
-    Serial.print( "Scanning For Entities..." );
+    Serial.print( "Scanning..." );
     Serial.println("");
-    servo_pin_10.write( 135 );
-    servo_pin_11.write( 135 );
+    servo_pin_10.write( 105 );
+    servo_pin_11.write( 105 );
     delay(300);
     servo_pin_10.detach();
     servo_pin_11.detach();
@@ -50,9 +38,16 @@ void loop() {
     delay(400);
     servo_pin_10.attach(10);
     servo_pin_11.attach(11);
+  } else { // if counter = 1 that means this code will run (Entity found)
+    
+    servo_pin_10.detach();
+    servo_pin_11.detach();
+    Serial.print( "Found!" );
+    Serial.println("");
+  }
+
   
   }
-}
 
 void eyes()
 {
@@ -68,7 +63,9 @@ void eyes()
   // Calculating the distance
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
   // Displays the distance on the Serial Monitor 
-    if ( (distance) != (0) && (distance) < 15 ) {
+    Serial.print( "Eye check" );
+    Serial.println("");
+    if ( (distance) != (0) && (distance) < 15 ) { // 15 centimeters
      
      counter = 1;
       
